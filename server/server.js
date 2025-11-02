@@ -1,1 +1,4 @@
-console.log("server is running...")
+import express from 'express';
+import cors from 'cors';
+
+const app = express();

@@ -2,9 +2,11 @@ import { Button } from '@/components/ui/button'  // shadcn's button
 import {Badge} from '@/components/ui/badge'
 import { Card } from './ui/card'
 
-function ReviewButton() {
+function ReviewButton({onReview, isLoading}) {
   return(<>
-     <Button className="cursor-pointer">Review My Code</Button>
+     <Button className="cursor-pointer" onClick={onReview} disabled={isLoading}>
+       {isLoading ? "Loading..." : "Review My Code"}
+     </Button>
      <Badge className="ml-2">New</Badge>
      <Card className="mt-4 p-4">
        <h2 className="text-lg font-semibold mb-2">Code Review Requested</h2>
