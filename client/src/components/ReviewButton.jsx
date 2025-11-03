@@ -1,23 +1,23 @@
-import { Button } from '@/components/ui/button'  // shadcn's button
-import {Badge} from '@/components/ui/badge'
-import { Card } from './ui/card'
-import { Toast } from 'sonner'
-imp
+import { Button } from '@/components/ui/button'
+import { Sparkles } from 'lucide-react'
 
 function ReviewButton({onReview, isLoading}) {
-  return(
-  <>
-     <Button className="cursor-pointer" onClick={onReview} disabled={isLoading}>
-       {isLoading ? "Loading..." : "Review My Code"}
-     </Button>
-     <Badge className="ml-2">New</Badge>
-     <Card className="mt-4 p-4">
-       <h2 className="text-lg font-semibold mb-2">Code Review Requested</h2>
-       <p className="text-sm text-muted-foreground">
-         Click the button above to submit your code for review by our AI-powered system. Get insights and suggestions to improve your code quality!
-       </p>
-     </Card>
-     </>
+  return (
+    <Button 
+      size="lg" 
+      onClick={onReview} 
+      disabled={isLoading}
+      className="bg-linear-to-r from-slate-900 to-slate-600 hover:from-slate-800 hover:to-slate-500 text-white font-semibold px-6 py-6 text-lg shadow-lg"
+    >
+      {isLoading ? (
+        "Reviewing..."
+      ) : (
+        <>
+          <Sparkles className="mr-2 h-5 w-5" />
+          Review My Code
+        </>
+      )}
+    </Button>
   )
 }
 

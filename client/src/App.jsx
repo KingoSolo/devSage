@@ -1,6 +1,7 @@
 import ReviewButton from './components/ReviewButton.jsx'
 import CodeEditor from './components/CodeEditor.jsx'
 import ResultsPanel from './components/ResultsPanel.jsx'
+import InstructionsCard from './components/InstructionsCard.jsx'
 import { useState } from 'react'
 import { Toaster } from './components/ui/sonner.jsx'
 import { toast } from 'sonner';
@@ -43,15 +44,26 @@ function App() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-300">
+    <div className="min-h-screen bg-gray-900 px-20 py-6 ">
      <Toaster/>
-      <h1 className="text-3xl">DevSage</h1>
-      <div className="flex flex-col items-center gap-4">
-        <CodeEditor code={code} setCode={setCode} />
-        <ReviewButton onReview={handleReview} isLoading={isLoading} />
-        {result && <ResultsPanel results={result} />}
-        {error && <div className="text-red-600 mt-4">{error}</div>}
+
+     <div className="text-center mb-6">
+        <h1 className="font-serif text-4xl font-bold bg-linear-to-r from-[#02000a] via-[#0a0625] to-[#676055] bg-clip-text text-transparent inline-block">DevSage</h1>
+     </div>
+
+      <div className="max-w-7xl mx-auto">
+    {/* Button */}
+    <div className="flex justify-center mb-6">
+      <ReviewButton onReview={handleReview} isLoading={isLoading} />
     </div>
+
+    {/* Two Columns */}
+    <div className="grid grid-cols-2 gap-6">
+      <CodeEditor code={code} setCode={setCode} />
+      {result ? <ResultsPanel results={result} /> : <InstructionsCard />}
+    </div>
+  </div>
+        {error && <div className="text-red-600 mt-4">{error}</div>}
     </div>
   )
 }
