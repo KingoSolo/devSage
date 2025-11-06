@@ -7,18 +7,18 @@ import { Toaster } from './components/ui/sonner.jsx'
 import { toast } from 'sonner';
 
 
-const mockResponse = {
-  score: 7,
-  summary: "Your code is functional but could be improved.",
-  issues: [
-    { severity: "high", message: "No input validation" },
-    { severity: "medium", message: "Variable names could be more descriptive" }
-  ],
-  suggestions: [
-    "Add type checking for function parameters",
-    "Use more descriptive variable names"
-  ]
-}
+// const mockResponse = {
+//   score: 7,
+//   summary: "Your code is functional but could be improved.",
+//   issues: [
+//     { severity: "high", message: "No input validation" },
+//     { severity: "medium", message: "Variable names could be more descriptive" }
+//   ],
+//   suggestions: [
+//     "Add type checking for function parameters",
+//     "Use more descriptive variable names"
+//   ]
+// }
 
 function App() {
   const [code, setCode] = useState("");
@@ -26,22 +26,40 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleReview = () => {
-    console.log("Code submitted for review:", code);
-    setIsLoading(true);
-    setError(null);
-
-    setTimeout(() => {
-      if (Math.random() < 0.5) {
-        toast.error("Failed to fetch code review. Please try again.");
-        setResult(null);
-      } else {
-        setResult(mockResponse);
-        setError(null);
-      }
-    setIsLoading(false);
-    },2000)
+  const handleReview = async () => {
+  if (!code || code.trim() === '') {
+    toast.error("Please enter some code first!");
+    return;
   }
+
+  setIsLoading(true);
+  setError(null);
+  setResult(null);
+
+  try {
+    const response = await fetch('http://localhost:5000/api/review', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch review');
+    }
+
+    const data = await response.json();
+    setResult(data);
+    
+  } catch (error) {
+    console.error('Error:', error);
+    toast.error("Failed to fetch code review. Please try again.");
+    setResult(null);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-900 px-20 py-6 ">
