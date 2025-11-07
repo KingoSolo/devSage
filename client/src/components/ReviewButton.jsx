@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Sparkles } from 'lucide-react'
+import { Spinner } from './ui/spinner'
 
 function ReviewButton({onReview, isLoading}) {
   return (
@@ -10,7 +11,10 @@ function ReviewButton({onReview, isLoading}) {
       className="bg-linear-to-r from-slate-900 to-slate-600 hover:from-slate-800 hover:to-slate-500 text-white font-semibold px-6 py-6 text-lg shadow-lg"
     >
       {isLoading ? (
-        "Reviewing..."
+        <>
+          <Spinner className="mr-2 h-5 w-5 animate-spin" /> 
+          Reviewing...
+       </>
       ) : (
         <>
           <Sparkles className="mr-2 h-5 w-5" />
