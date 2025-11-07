@@ -27,8 +27,22 @@ function App() {
   const [error, setError] = useState(null);
 
   const handleReview = async () => {
-  if (!code || code.trim() === '') {
+    const trimmedCode = code.trim();
+
+    if (!trimmedCode || trimmedCode === '') {
     toast.error("Please enter some code first!");
+    return;
+  }
+
+  if(trimmedCode.length < 10) {
+    toast.error("Please enter at least 10 characters of code for review.");
+    return;
+  }
+
+  const hasCodePatterns = /function|const|let|var|class|import|export|return|if|for|while|\{|\}|\(|\)/i.test(trimmedCode);
+  
+  if (!hasCodePatterns) {
+    toast.error("This doesn't look like JavaScript code. Please paste valid code.");
     return;
   }
 
@@ -66,8 +80,8 @@ function App() {
      <Toaster/>
 
      <div className="text-center mb-6">
-        <h1 className="font-serif text-4xl font-bold bg-linear-to-r from-[#02000a] via-[#0a0625] to-[#676055] bg-clip-text text-transparent inline-block">DevSage</h1>
-     </div>
+       <h1 className="font-serif text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">DevSage</h1>
+    </div>
 
       <div className="max-w-7xl mx-auto">
     {/* Button */}

@@ -37,14 +37,20 @@ function ResultsPanel({ results }) {
       {/* Issues */}
       <div className="mb-6">
         <h3 className="font-semibold text-red-300 mb-3 flex items-center gap-2">
-          <AlertCircle className="h-5 w-5" />
-          Issues Found
+          <AlertCircle className="h-6 w-6" />
+    Issues Found ({results.issues.length})
         </h3>
         <div className="space-y-2">
           {results.issues.map((issue, index) => (
             <div key={index} className="p-3 bg-red-950/20 rounded-lg border border-red-500/20 flex items-start gap-3">
-              <Badge variant={issue.severity === 'high' ? 'destructive' : 'secondary'} className="mt-1">
-                {issue.severity}
+              <Badge variant={issue.severity === 'high' ? 'destructive' : 'secondary'} className={`mt-1 ${
+                issue.severity === 'high' 
+                  ? 'bg-red-600 text-white' 
+                  : issue.severity === 'medium'
+                  ? 'bg-yellow-600 text-white'
+                  : 'bg-blue-600 text-white'
+              }`}>
+                {issue.severity.toUpperCase()}
               </Badge>
               <span className="text-gray-300 text-sm">{issue.message}</span>
             </div>
