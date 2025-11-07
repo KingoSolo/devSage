@@ -1,24 +1,12 @@
 import ReviewButton from './components/ReviewButton.jsx'
 import CodeEditor from './components/CodeEditor.jsx'
 import ResultsPanel from './components/ResultsPanel.jsx'
+import ChatInterface from './components/ChatInterface.jsx'
 import InstructionsCard from './components/InstructionsCard.jsx'
 import { useState } from 'react'
 import { Toaster } from './components/ui/sonner.jsx'
 import { toast } from 'sonner';
 
-
-// const mockResponse = {
-//   score: 7,
-//   summary: "Your code is functional but could be improved.",
-//   issues: [
-//     { severity: "high", message: "No input validation" },
-//     { severity: "medium", message: "Variable names could be more descriptive" }
-//   ],
-//   suggestions: [
-//     "Add type checking for function parameters",
-//     "Use more descriptive variable names"
-//   ]
-// }
 
 function App() {
   const [code, setCode] = useState("");
@@ -39,7 +27,7 @@ function App() {
     return;
   }
 
-  const hasCodePatterns = /function|const|let|var|class|import|export|return|if|for|while|\{|\}|\(|\)/i.test(trimmedCode);
+  const hasCodePatterns = /\b(function|const|let|var|class|import|export|return|if|else|for|while|switch|case|try|catch|async|await)\b/i.test(trimmedCode);
   
   if (!hasCodePatterns) {
     toast.error("This doesn't look like JavaScript code. Please paste valid code.");
@@ -76,7 +64,7 @@ function App() {
 };
 
   return (
-    <div className="min-h-screen bg-gray-900 px-20 py-6 ">
+    <div className="min-h-screen overflow-y-scroll bg-gray-900 px-20 py-6 ">
      <Toaster/>
 
      <div className="text-center mb-6">
@@ -94,6 +82,11 @@ function App() {
       <CodeEditor code={code} setCode={setCode} />
       {result ? <ResultsPanel results={result} /> : <InstructionsCard />}
     </div>
+
+    {/* Chat Interface */}
+    <div className="mt-8">
+      <ChatInterface />
+      </div>
   </div>
         {error && <div className="text-red-600 mt-4">{error}</div>}
     </div>
