@@ -4,7 +4,7 @@ import { CheckCircle2, AlertCircle, Lightbulb, TrendingUp } from 'lucide-react'
 
 function ResultsPanel({ results }) {
   return (
-    <Card className="p-8 bg-linear-to-br from-gray-800 to-gray-900 border-green-50/20 h-[400px] overflow-y-auto">
+    <Card className="p-8 bg-linear-to-br from-gray-800 to-gray-900 border-green-50/20 h-[400px] overflow-y-auto animate-in fade-in duration-4000">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-3 bg-green-600/20 rounded-lg">
           <CheckCircle2 className="h-8 w-8 text-green-400" />
@@ -35,28 +35,38 @@ function ResultsPanel({ results }) {
       </div>
 
       {/* Issues */}
+      {results.issues.length > 0 ? (
       <div className="mb-6">
         <h3 className="font-semibold text-red-300 mb-3 flex items-center gap-2">
           <AlertCircle className="h-6 w-6" />
-    Issues Found ({results.issues.length})
+            Issues Found ({results.issues.length})
         </h3>
         <div className="space-y-2">
-          {results.issues.map((issue, index) => (
-            <div key={index} className="p-3 bg-red-950/20 rounded-lg border border-red-500/20 flex items-start gap-3">
-              <Badge variant={issue.severity === 'high' ? 'destructive' : 'secondary'} className={`mt-1 ${
-                issue.severity === 'high' 
-                  ? 'bg-red-600 text-white' 
-                  : issue.severity === 'medium'
-                  ? 'bg-yellow-600 text-white'
-                  : 'bg-blue-600 text-white'
-              }`}>
-                {issue.severity.toUpperCase()}
-              </Badge>
-              <span className="text-gray-300 text-sm">{issue.message}</span>
-            </div>
-          ))}
+            { results.issues.map((issue, index) => (
+              <div key={index} className="p-3 bg-red-950/20 rounded-lg border border-red-500/20 flex items-start gap-3">
+                <Badge variant={issue.severity === 'high' ? 'destructive' : 'secondary'} className={`mt-1 ${
+                    issue.severity === 'high' 
+                      ? 'bg-red-600 text-white' 
+                      : issue.severity === 'medium'
+                    ? 'bg-yellow-600 text-white'
+                    : 'bg-blue-600 text-white'
+                    }`}>
+                    {issue.severity.toUpperCase()}
+                </Badge>
+               <span className="text-gray-300 text-sm">{issue.message}</span>
+              </div>
+            ))
+            }
         </div>
       </div>
+      ): (
+            <div className="p-3 bg-red-950/20 rounded-lg border border-red-500/20 flex items-start gap-3">
+             <p className="text-green-300 flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5" />
+                  No issues found! Your code looks great!
+             </p>
+            </div>
+          )}
 
       {/* Suggestions */}
       <div>

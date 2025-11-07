@@ -35,8 +35,12 @@ app.post('/api/review', async (req, res) => {
       return res.status(400).json({ error: 'Code is required' });
     }
 
+    if (code.trim().length < 10) {
+      return res.status(400).json({ error: 'Code snippet too short' });
+    }
+
     // Call OpenAI
-const prompt = `You are a strict code reviewer with over 20 years of JavaScript experience.
+const prompt = `You are a very strict code reviewer with over 20 years of JavaScript experience.
 
 Analyze the following code and provide your review in this EXACT JSON format:
 {
@@ -67,20 +71,6 @@ const responseText = completion.choices[0].message.content;
 const reviewData = JSON.parse(responseText);
 
 res.json(reviewData);
-    
-    // For now, send mock response
-    // const mockResponse = {
-    //   score: 8,
-    //   summary: "Code looks good with minor improvements needed.",
-    //   issues: [
-    //     { severity: "medium", message: "Consider adding error handling" }
-    //   ],
-    //   suggestions: [
-    //    "Add try-catch blocks for better error handling"
-    //   ]
-    // };
-
-    // res.json(mockResponse);
 
   } catch (error) {
     console.error('Error:', error);
