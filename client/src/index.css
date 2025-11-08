@@ -116,6 +116,7 @@
     
   }
   body {
-   @apply   overflow-hidden;
+  @apply bg-gray-900;
+  overflow-x: hidden;
   }
 }

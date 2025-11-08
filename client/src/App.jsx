@@ -27,7 +27,7 @@ function App() {
     return;
   }
 
-  const hasCodePatterns = /\b(function|const|let|var|class|import|export|return|if|else|for|while|switch|case|try|catch|async|await)\b/i.test(trimmedCode);
+  const hasCodePatterns = /\b(function|const|let|var|class|import|export|console.log|return|if|else|for|while|switch|case|try|catch|async|await)\b/i.test(trimmedCode);
   
   if (!hasCodePatterns) {
     toast.error("This doesn't look like JavaScript code. Please paste valid code.");
@@ -64,7 +64,7 @@ function App() {
 };
 
   return (
-    <div className="min-h-screen  overflow-x-hidden bg-gray-900 px-20 py-6 ">
+    <div className="min-h-screen  bg-gray-900 px-20 py-6 ">
      <Toaster/>
 
     {/* Title */}
