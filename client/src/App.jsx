@@ -98,7 +98,7 @@ try {
 
     {/* Chat Interface */}
     <div className="mt-8  mx-auto">
-      {result && <ChatInterface />}
+      {result && <ChatInterface code={code} reviewResult={result} />}
     </div>
   </div>
         {error && <div className="text-red-600 mt-4">{error}</div>}
