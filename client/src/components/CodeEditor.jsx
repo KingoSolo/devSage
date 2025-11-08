@@ -11,7 +11,7 @@ function CodeEditor({code,setCode}) {
                 extensions={[javascript()]}
                 height="400px"
                 theme={"dark"}
-                placeholder={"//paste your code here"}
+                placeholder={"//Paste your code here"}
             />
         </div>
     );
