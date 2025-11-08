@@ -2,7 +2,7 @@ import { Card } from "./ui/card";
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 
-function ChatInterface() {
+function ChatInterface({ code, reviewResult }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
@@ -12,17 +12,34 @@ function ChatInterface() {
   
   const userMessage = { role: 'user', text: input };
   setMessages([...messages, userMessage]);
-  setInput('');
+  const currentInput = input;
+      setInput('');
+      setIsThinking(true);
   
-  // Show thinking indicator
-  setIsThinking(true);
-  
-  // Simulate AI response (we'll replace this with real API call)
-  setTimeout(() => {
-    const aiMessage = { role: 'assistant', text: 'This is a test response!' };
+  try {
+    const response = await fetch('http://localhost:5000/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: currentInput,
+        code: code,
+        reviewContext: reviewResult
+      })
+    });
+    
+    if (!response.ok) throw new Error('Failed to get response');
+    
+    const data = await response.json();
+    const aiMessage = { role: 'assistant', text: data.response };
     setMessages(prev => [...prev, aiMessage]);
+    
+  } catch (error) {
+    console.error('Chat error:', error);
+    const errorMessage = { role: 'assistant', text: 'Sorry, I had trouble responding. Please try again.' };
+    setMessages(prev => [...prev, errorMessage]);
+  } finally {
     setIsThinking(false);
-  }, 2000);
+  }
 };
 
   return (
