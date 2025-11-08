@@ -78,6 +78,50 @@ res.json(reviewData);
   }
 });
 
+// Chat endpoint
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { question, code, reviewContext } = req.body;
+    
+    // Validate
+    if (!question || !question.trim()) {
+      return res.status(400).json({ error: 'Question is required' });
+    }
+    
+   // Build context-aware prompt
+const chatPrompt = `You are a very intelligent and helpful code review assistant. You previously reviewed this code:
+
+CODE:
+${code}
+
+REVIEW RESULTS:
+${JSON.stringify(reviewContext, null, 2)}
+
+The user is asking: "${question}"
+
+Provide a clear, concise answer based on the code and review context.`;
+
+// Call OpenAI
+const completion = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [
+    { role: "system", content: "You are an expert code reviewer assistant." },
+    { role: "user", content: chatPrompt }
+  ],
+  temperature: 0.7,
+  max_tokens: 300
+});
+
+const aiResponse = completion.choices[0].message.content;
+
+res.json({ response: aiResponse });
+    
+  } catch (error) {
+    console.error('Chat error:', error);
+    res.status(500).json({ error: 'Failed to process chat' });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
