@@ -1,11 +1,16 @@
 import { Card } from "./ui/card";
 import { ArrowUp } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect  } from "react";
 
 function ChatInterface({ code, reviewResult }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+  messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+}, [messages, isThinking]);
 
   const handleSend = async () => {
   if (!input.trim()) return;
@@ -76,6 +81,7 @@ function ChatInterface({ code, reviewResult }) {
                 <span className="ml-2">Thinking...</span>
                 </div>
             )}
+            <div ref={messagesEndRef} /> 
             </>
         )}
         </div>

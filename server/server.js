@@ -18,7 +18,8 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
+
 
 // Test route
 app.get('/', (req, res) => {
@@ -59,7 +60,7 @@ ${code}
 
 Return ONLY valid JSON, no additional text.`;
 const completion = await openai.chat.completions.create({
-  model: "gpt-3.5-turbo",
+  model: "gpt-4o-mini",
   messages: [
     { role: "system", content: "You are an expert code reviewer." },
     { role: "user", content: prompt }
@@ -103,7 +104,7 @@ Provide a clear, concise answer based on the code and review context.`;
 
 // Call OpenAI
 const completion = await openai.chat.completions.create({
-  model: "gpt-3.5-turbo",
+  model: "gpt-4o-mini",
   messages: [
     { role: "system", content: "You are an expert code reviewer assistant." },
     { role: "user", content: chatPrompt }
