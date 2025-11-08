@@ -64,9 +64,10 @@ function App() {
 };
 
   return (
-    <div className="min-h-screen overflow-y-scroll bg-gray-900 px-20 py-6 ">
+    <div className="min-h-screen  overflow-x-hidden bg-gray-900 px-20 py-6 ">
      <Toaster/>
 
+    {/* Title */}
      <div className="text-center mb-6">
        <h1 className="font-serif text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">DevSage</h1>
     </div>
@@ -84,9 +85,9 @@ function App() {
     </div>
 
     {/* Chat Interface */}
-    <div className="mt-8">
-      <ChatInterface />
-      </div>
+    <div className="mt-8  mx-auto">
+      {result && <ChatInterface />}
+    </div>
   </div>
         {error && <div className="text-red-600 mt-4">{error}</div>}
     </div>
