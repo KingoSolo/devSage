@@ -35,10 +35,21 @@ function ChatInterface() {
   ) : (
     <>
       {messages.map((msg, index) => (
-        <div key={index}>
-          <p>{msg.text}</p>
-        </div>
-      ))}
+        <div 
+            key={index} 
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+        >
+            <div 
+            className={`max-w-[80%] p-4 rounded-lg ${
+                msg.role === 'user' 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-700 text-gray-100'
+            }`}
+            >
+                <p className="text-sm">{msg.text}</p>
+                    </div>
+                </div>
+        ))}
       
       {isThinking && (
         <div className="flex items-center gap-2 text-gray-400">
