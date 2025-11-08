@@ -3,6 +3,7 @@ import CodeEditor from './components/CodeEditor.jsx'
 import ResultsPanel from './components/ResultsPanel.jsx'
 import ChatInterface from './components/ChatInterface.jsx'
 import InstructionsCard from './components/InstructionsCard.jsx'
+import { parse } from '@babel/parser'
 import { useState } from 'react'
 import { Toaster } from './components/ui/sonner.jsx'
 import { toast } from 'sonner';
@@ -27,12 +28,18 @@ function App() {
     return;
   }
 
-  const hasCodePatterns = /\b(function|const|let|var|class|import|export|console.log|return|if|else|for|while|switch|case|try|catch|async|await)\b/i.test(trimmedCode);
-  
-  if (!hasCodePatterns) {
-    toast.error("This doesn't look like JavaScript code. Please paste valid code.");
-    return;
-  }
+try {
+  const wrappedCode = `(()=>{ ${trimmedCode} })()`;
+  parse(wrappedCode, {
+    sourceType: "module",
+    plugins: ["jsx", "typescript"],
+  });
+} catch {
+  toast.error("This doesn't look like valid JavaScript or JSX code.");
+  return;
+}
+
+
 
   setIsLoading(true);
   setError(null);
@@ -67,16 +74,21 @@ function App() {
     <div className="min-h-screen  bg-gray-900 px-20 py-6 ">
      <Toaster/>
 
-    {/* Title */}
-     <div className="text-center mb-6">
-       <h1 className="font-serif text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">DevSage</h1>
+  <div className="sticky top-0 z-50 bg-gray-900 pb-6">
+      {/* Title */}
+      <div className="text-center mb-6">
+        <h1 className="font-serif text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">DevSage</h1>
+      </div>
+
+       
+      {/* Button */}
+      <div className="flex justify-center mb-6">
+        <ReviewButton onReview={handleReview} isLoading={isLoading} />
+      </div>
+  
     </div>
 
-      <div className="max-w-7xl mx-auto">
-    {/* Button */}
-    <div className="flex justify-center mb-6">
-      <ReviewButton onReview={handleReview} isLoading={isLoading} />
-    </div>
+    <div className="max-w-7xl mx-auto">
 
     {/* Two Columns */}
     <div className="grid grid-cols-2 gap-6">
