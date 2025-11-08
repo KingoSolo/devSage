@@ -71,7 +71,7 @@ try {
 };
 
   return (
-    <div className="min-h-screen  bg-gray-900 px-20 py-6 ">
+    <div className="min-h-screen bg-gray-900 px-4 sm:px-8 md:px-20 py-6">
      <Toaster/>
 
   <div className="sticky top-0 z-50 bg-gray-900 pb-6">
@@ -91,7 +91,7 @@ try {
     <div className="max-w-7xl mx-auto">
 
     {/* Two Columns */}
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <CodeEditor code={code} setCode={setCode} />
       {result ? <ResultsPanel results={result} /> : <InstructionsCard />}
     </div>
