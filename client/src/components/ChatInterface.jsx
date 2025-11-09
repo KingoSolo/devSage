@@ -53,7 +53,7 @@ function ChatInterface({ code, reviewResult }) {
      {/* Messages Area */}
     <div className="flex-1 overflow-y-auto p-6 space-y-4 scroll-smooth">
     {messages.length === 0 ? (
-        <p className="text-gray-400 text-center">Ask questions about your code review...</p>
+        <p className="text-gray-400 text-center">Scroll to the bottom to ask about your code review...</p>
     ) : (
         <>
         {messages.map((msg, index) => (
